@@ -31,9 +31,7 @@ const NewIssuesPage = () => {
         try {
             setSubmitting(true);
             await axios.post("/api/issues", data);
-            if (typeof navigator !== "undefined") {
-                router.push("/issues");
-            }
+            router.push("/issues");
         } catch (error) {
             setSubmitting(false);
             setError("An Expected Error Occurred!");
