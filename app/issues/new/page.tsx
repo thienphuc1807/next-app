@@ -4,8 +4,7 @@ import SimpleMDE from "react-simplemde-editor";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
@@ -15,16 +14,6 @@ import Spinner from "@/app/components/Spinner";
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuesPage = () => {
-    const router = useRouter();
-    useEffect(() => {
-        // Check if navigator is available before using it
-        if (typeof window !== "undefined") {
-            // Accessing navigator or using the router here is safe
-            console.log(navigator.userAgent);
-            console.log(router);
-        }
-    }, [router]);
-
     const {
         register,
         control,
@@ -40,7 +29,6 @@ const NewIssuesPage = () => {
         try {
             setSubmitting(true);
             await axios.post("/api/issues", data);
-            router.push("/issues");
         } catch (error) {
             setSubmitting(false);
             setError("An Expected Error Occurred!");
