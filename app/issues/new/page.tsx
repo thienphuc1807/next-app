@@ -4,7 +4,8 @@ import SimpleMDE from "react-simplemde-editor";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
@@ -14,6 +15,7 @@ import Spinner from "@/app/components/Spinner";
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuesPage = () => {
+    const router = useRouter();
     const {
         register,
         control,
@@ -29,6 +31,9 @@ const NewIssuesPage = () => {
         try {
             setSubmitting(true);
             await axios.post("/api/issues", data);
+            if (typeof window !== "undefined") {
+                router.push("/issues");
+            }
         } catch (error) {
             setSubmitting(false);
             setError("An Expected Error Occurred!");
