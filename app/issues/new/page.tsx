@@ -16,14 +16,6 @@ type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuesPage = () => {
     const router = useRouter();
-
-    useEffect(() => {
-        // Check if running in the browser environment
-        if (typeof window !== "undefined") {
-            // Access the router object here
-            console.log("Current route:", router);
-        }
-    }, [router]);
     const {
         register,
         control,
@@ -39,7 +31,9 @@ const NewIssuesPage = () => {
         try {
             setSubmitting(true);
             await axios.post("/api/issues", data);
-            router.push("/issues");
+            if (typeof navigator !== "undefined") {
+                router.push("/issues");
+            }
         } catch (error) {
             setSubmitting(false);
             setError("An Expected Error Occurred!");
