@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
@@ -16,6 +16,14 @@ type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuesPage = () => {
     const router = useRouter();
+
+    useEffect(() => {
+        // Check if running in the browser environment
+        if (typeof window !== "undefined") {
+            // Access the router object here
+            console.log("Current route:", router);
+        }
+    }, [router]);
     const {
         register,
         control,
